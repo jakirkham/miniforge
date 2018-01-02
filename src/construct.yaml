@@ -1,0 +1,20 @@
+{% from "version.jinja" import version %}
+{% from "python.jinja" import py_ver_maj, py_ver_min %}
+
+
+name: miniforge-py{{ py_ver_maj }}{{ py_ver_min }}
+version: {{ version }}
+
+install_in_dependency_order: true
+
+channels:
+  - http://conda.anaconda.org/conda-forge
+
+specs:
+  - python {{ py_ver_maj }}.{{ py_ver_min }}.*
+  - pip
+  - conda
+
+license_file: LICENSE.txt
+
+keep_pkgs: true
