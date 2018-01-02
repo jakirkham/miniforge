@@ -3,6 +3,7 @@
 import argparse
 import contextlib
 import datetime
+import hashlib
 import os
 import shutil
 import subprocess
@@ -72,6 +73,14 @@ def main(*argv):
         type=str,
         help="Python version to use in install"
     )
+    parser.add_argument(
+        "--hash",
+        type=str,
+        nargs="*",
+        default=[],
+        dest="hash_names",
+        help="Hashes to run on each installer"
+    )
     args = parser.parse_args(args=argv[1:])
 
     py_ver = []
@@ -85,6 +94,10 @@ def main(*argv):
 
     py_ver_maj = py_ver[0]
     py_ver_min = py_ver[1]
+
+    hash_names = args.hash_names
+    for hn in hash_names:
+        hashlib.new(hn)
 
     base_dir = os.path.dirname(os.path.abspath(__name__))
     src_dir = os.path.join(base_dir, "src")
@@ -133,6 +146,30 @@ def main(*argv):
             "--output-dir", out_tmp_dir,
             "--cache-dir", cache_dir
         ])
+
+        if hash_names:
+            for fn in os.listdir(out_tmp_dir):
+                fn = os.path.join(out_tmp_dir, fn)
+                if os.path.isfile(fn):
+                    print(
+                        "Computing hashes for \"%s\"." % os.path.basename(fn)
+                    )
+
+                    fn_hashes = {}
+                    for hn in hash_names:
+                        h = subprocess.check_output(
+                            ["openssl", hn, fn],
+                            universal_newlines=True
+                        )
+                        h = h.split()[-1]
+                        fn_hashes[hn] = h
+
+                    print("Writing out hashes.")
+                    for hn in hash_names:
+                        h = fn_hashes[hn]
+                        with open(fn + os.extsep + hn, "w") as fh:
+                            fh.write(h)
+                            fh.write("\n")
 
         shutil.move(out_tmp_dir, out_dir)
 
