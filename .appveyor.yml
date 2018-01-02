@@ -1,0 +1,46 @@
+platform:
+  - x64
+
+branches:
+  only:
+  - master
+
+environment:
+
+  matrix:
+    - TARGET_ARCH: x86
+      PYVER: 27
+      CONDA_INSTALL_LOCN: C:\\Miniconda
+
+    - TARGET_ARCH: x64
+      PYVER: 27
+      CONDA_INSTALL_LOCN: C:\\Miniconda-x64
+
+    - TARGET_ARCH: x86
+      PYVER: 35
+      CONDA_INSTALL_LOCN: C:\\Miniconda35
+
+    - TARGET_ARCH: x64
+      PYVER: 35
+      CONDA_INSTALL_LOCN: C:\\Miniconda35-x64
+
+    - TARGET_ARCH: x86
+      PYVER: 36
+      CONDA_INSTALL_LOCN: C:\\Miniconda36
+
+    - TARGET_ARCH: x64
+      PYVER: 36
+      CONDA_INSTALL_LOCN: C:\\Miniconda36-x64
+
+install:
+  - cmd: rmdir C:\cygwin /s /q
+
+  - cmd: call %CONDA_INSTALL_LOCN%\Scripts\activate.bat
+  - cmd: conda.exe install -yq conda=4.3
+
+  - cmd: conda.exe config --set auto_update_conda false
+
+build: off
+
+test_script:
+  - cmd: .scripts\\run.bat
