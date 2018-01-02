@@ -1,23 +1,46 @@
 version: 2
 
 jobs:
-  build:
+  build_python_27:
     working_directory: ~/test
     machine: true
-    branches:
-      ignore:
-        - /.*/
+    environment:
+      - PYVER: "27"
     steps:
+      - checkout
       - run:
-          # The Circle-CI build should not be active, but if this is not true for some reason, do a fast finish.
-          command: exit 0
+          command: docker pull condaforge/linux-anvil
+      - run:
+          command: docker run -it -e PYVER="${PYVER}" -v "$(pwd)":/repo -w /repo condaforge/linux-anvil .scripts/run.sh
+
+  build_python_35:
+    working_directory: ~/test
+    machine: true
+    environment:
+      - PYVER: "35"
+    steps:
+      - checkout
+      - run:
+          command: docker pull condaforge/linux-anvil
+      - run:
+          command: docker run -it -e PYVER="${PYVER}" -v "$(pwd)":/repo -w /repo condaforge/linux-anvil .scripts/run.sh
+
+  build_python_36:
+    working_directory: ~/test
+    machine: true
+    environment:
+      - PYVER: "36"
+    steps:
+      - checkout
+      - run:
+          command: docker pull condaforge/linux-anvil
+      - run:
+          command: docker run -it -e PYVER="${PYVER}" -v "$(pwd)":/repo -w /repo condaforge/linux-anvil .scripts/run.sh
 
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - build:
-          filters:
-            branches:
-              ignore:
-                - /.*/
+      - build_python_27
+      - build_python_35
+      - build_python_36

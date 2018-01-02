@@ -1,0 +1,28 @@
+language: generic
+
+os: osx
+osx_image: xcode6.4
+
+branches:
+  only:
+  - master
+
+env:
+  - PYVER="27"
+  - PYVER="35"
+  - PYVER="36"
+
+before_install:
+  - curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall > ~/uninstall_homebrew
+  - /usr/bin/ruby ~/uninstall_homebrew -fq
+  - rm ~/uninstall_homebrew
+
+install:
+  - curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh > miniconda.sh
+  - bash miniconda.sh -b -p ~/miniconda
+  - source ~/miniconda/bin/activate
+
+  - conda config --set auto_update_conda false
+
+script:
+  - .scripts/run.sh
