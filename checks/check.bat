@@ -11,3 +11,9 @@ start /wait "" %cd%\miniforge.exe /InstallationType=JustMe    ^
                                   /S                          ^
                                   /D=%cd%\prefix
 if errorlevel 1 exit 1
+
+call .\prefix\Scripts\activate.bat
+if errorlevel 1 exit 1
+
+call .\prefix\Scripts\deactivate.bat
+if errorlevel 1 exit 1
