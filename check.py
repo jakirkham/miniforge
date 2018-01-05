@@ -3,11 +3,21 @@
 from __future__ import print_function
 
 import argparse
+import contextlib
 import datetime
 import glob
 import os
+import shutil
 import subprocess
 import sys
+import tempfile
+
+
+@contextlib.contextmanager
+def mkdtemp(*args, **kwargs):
+    tmp_dir = tempfile.mkdtemp(*args, **kwargs)
+    yield tmp_dir
+    shutil.rmtree(tmp_dir)
 
 
 def git_commit_time(ref="HEAD"):
@@ -49,6 +59,7 @@ def main(*argv):
     args = parser.parse_args(args=argv[1:])
 
     base_dir = os.path.dirname(os.path.abspath(__name__))
+    checks_dir = os.path.join(base_dir, "checks")
 
     all_installer_fns = []
     for each_installer_fn in args.installers:
@@ -65,6 +76,45 @@ def main(*argv):
         else:
             exit_code = 1
             print("FAIL")
+
+        with mkdtemp(prefix="miniforge_") as tmp_dir:
+            print("Created temp directory: %s" % tmp_dir)
+
+            script_ext = os.extsep
+            installer_ext = os.extsep
+            if sys.platform == "win32":
+                script_ext += "bat"
+                installer_ext += "exe"
+            else:
+                script_ext += "sh"
+                installer_ext += "sh"
+
+            shutil.copy(
+                os.path.join(checks_dir, "check%s" % script_ext),
+                tmp_dir
+            )
+
+            tmp_installer_fn = os.path.join(
+                tmp_dir, "miniforge" + installer_ext
+            )
+            shutil.copy(each_installer_fn, tmp_installer_fn)
+
+            print("Shelling out for further testing.")
+            cwd = os.getcwd()
+            try:
+                os.chdir(tmp_dir)
+                if sys.platform == "win32":
+                    subprocess.check_call(
+                        ["check%s" % script_ext]
+                    )
+                else:
+                    subprocess.check_call([
+                        "bash",
+                        "check%s" % script_ext
+                    ])
+            finally:
+                os.chdir(cwd)
+                print("Cleaning up.")
 
     return(exit_code)
 
