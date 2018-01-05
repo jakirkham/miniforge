@@ -15,5 +15,11 @@ if errorlevel 1 exit 1
 call .\prefix\Scripts\activate.bat
 if errorlevel 1 exit 1
 
+conda info
+if errorlevel 1 exit 1
+
+conda list
+if errorlevel 1 exit 1
+
 call .\prefix\Scripts\deactivate.bat
 if errorlevel 1 exit 1
