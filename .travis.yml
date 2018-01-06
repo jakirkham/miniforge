@@ -8,6 +8,8 @@ branches:
   - master
 
 env:
+  global:
+    - PYTHONUNBUFFERED=1
   matrix:
     - PYVER="27"
     - PYVER="35"
