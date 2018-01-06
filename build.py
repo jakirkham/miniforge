@@ -2,7 +2,6 @@
 
 import argparse
 import contextlib
-import datetime
 import hashlib
 import os
 import shutil
@@ -23,31 +22,6 @@ def rmmkdir(dn):
     if os.path.exists(dn):
         shutil.rmtree(dn)
     os.makedirs(dn)
-
-
-def git_commit_time(ref="HEAD"):
-    git_time_str = subprocess.check_output(
-        ["git", "show", "-s", "--format=%ci", ref],
-        universal_newlines=True
-    )
-    git_time_str = git_time_str.strip()
-    git_utctime = datetime.datetime.strptime(
-        git_time_str[:19] + " UTC",
-        "%Y-%m-%d %H:%M:%S %Z"
-    )
-
-    git_timedelta = datetime.timedelta()
-    if len(git_time_str) > 19:
-        git_timedelta = datetime.datetime.strptime(git_time_str[21:], "%H%M")
-        git_timedelta = datetime.timedelta(
-            hours=git_timedelta.hour, minutes=git_timedelta.minute
-        )
-        if git_time_str[20] == "-":
-            git_timedelta = -git_timedelta
-
-    git_time = git_utctime - git_timedelta
-
-    return git_time
 
 
 def write_jinja_vars(fn, dct):
@@ -101,12 +75,16 @@ def main(*argv):
 
     base_dir = os.path.dirname(os.path.abspath(__name__))
     src_dir = os.path.join(base_dir, "src")
+    _scripts_dir = os.path.join(base_dir, ".scripts")
 
     out_dir = os.path.join(base_dir, "out")
     if os.path.exists(out_dir):
         shutil.rmtree(out_dir)
 
-    git_time_str = git_commit_time(ref="HEAD").strftime("%Y%m%dT%H%M%SZ")
+    git_time_str = subprocess.check_output(
+        [sys.executable, os.path.join(_scripts_dir, "version.py")],
+        universal_newlines=True
+    ).strip()
 
     with mkdtemp(prefix="miniforge_") as tmp_dir:
         print("Created temp directory: %s" % tmp_dir)
