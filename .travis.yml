@@ -8,9 +8,10 @@ branches:
   - master
 
 env:
-  - PYVER="27"
-  - PYVER="35"
-  - PYVER="36"
+  matrix:
+    - PYVER="27"
+    - PYVER="35"
+    - PYVER="36"
 
 before_install:
   - curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall > ~/uninstall_homebrew
