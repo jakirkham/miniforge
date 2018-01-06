@@ -47,3 +47,4 @@ build: off
 test_script:
   - cmd: .scripts\\run.bat
   - cmd: check "out\\miniforge-py%PYVER%-*.exe"
+  - cmd: distclean
