@@ -78,8 +78,8 @@ def main(*argv):
     _scripts_dir = os.path.join(base_dir, ".scripts")
 
     out_dir = os.path.join(base_dir, "out")
-    if os.path.exists(out_dir):
-        shutil.rmtree(out_dir)
+    if not os.path.exists(out_dir):
+        os.mkdir(out_dir)
 
     git_time_str = subprocess.check_output(
         [sys.executable, os.path.join(_scripts_dir, "version.py")],
@@ -149,7 +149,9 @@ def main(*argv):
                             fh.write(h)
                             fh.write("\n")
 
-        shutil.move(out_tmp_dir, out_dir)
+        for each_fn in os.listdir(out_tmp_dir):
+            each_fn = os.path.join(out_tmp_dir, each_fn)
+            shutil.move(each_fn, out_dir)
 
         print("Moved installer to: %s" % out_dir)
 

@@ -15,6 +15,8 @@ jobs:
           command: docker run -it -e PYVER="${PYVER}" -v "$(pwd)":/repo -w /repo condaforge/linux-anvil .scripts/run.sh
       - run:
           command: docker run -it -e PYVER="${PYVER}" -v "$(pwd)":/repo -w /repo condaforge/linux-anvil ./check.py "out/miniforge-py${PYVER}-*.sh"
+      - run:
+          command: docker run -it -e PYVER="${PYVER}" -v "$(pwd)":/repo -w /repo condaforge/linux-anvil ./distclean.py
 
   build_python_35:
     working_directory: ~/test
@@ -30,6 +32,8 @@ jobs:
           command: docker run -it -e PYVER="${PYVER}" -v "$(pwd)":/repo -w /repo condaforge/linux-anvil .scripts/run.sh
       - run:
           command: docker run -it -e PYVER="${PYVER}" -v "$(pwd)":/repo -w /repo condaforge/linux-anvil ./check.py "out/miniforge-py${PYVER}-*.sh"
+      - run:
+          command: docker run -it -e PYVER="${PYVER}" -v "$(pwd)":/repo -w /repo condaforge/linux-anvil ./distclean.py
 
   build_python_36:
     working_directory: ~/test
@@ -45,6 +49,8 @@ jobs:
           command: docker run -it -e PYVER="${PYVER}" -v "$(pwd)":/repo -w /repo condaforge/linux-anvil .scripts/run.sh
       - run:
           command: docker run -it -e PYVER="${PYVER}" -v "$(pwd)":/repo -w /repo condaforge/linux-anvil ./check.py "out/miniforge-py${PYVER}-*.sh"
+      - run:
+          command: docker run -it -e PYVER="${PYVER}" -v "$(pwd)":/repo -w /repo condaforge/linux-anvil ./distclean.py
 
   test_release:
     working_directory: ~/test
