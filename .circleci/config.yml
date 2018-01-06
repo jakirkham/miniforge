@@ -46,6 +46,24 @@ jobs:
       - run:
           command: docker run -it -e PYVER="${PYVER}" -v "$(pwd)":/repo -w /repo condaforge/linux-anvil ./check.py "out/miniforge-py${PYVER}-*.sh"
 
+  test_release:
+    working_directory: ~/test
+    machine: true
+    environment:
+      - PYTHONUNBUFFERED: 1
+    steps:
+      - checkout
+      - run:
+          command: |
+             git config --global user.name "Foo Bar"
+             git config --global user.email "foo@bar.com"
+      - run:
+          command: python release.py
+      - run:
+          command: ( python release.py ) && false || true
+      - run:
+          command: python release.py --force
+
 workflows:
   version: 2
   build_and_test:
@@ -53,3 +71,4 @@ workflows:
       - build_python_27
       - build_python_35
       - build_python_36
+      - test_release
