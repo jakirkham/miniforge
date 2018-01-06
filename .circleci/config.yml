@@ -5,6 +5,7 @@ jobs:
     working_directory: ~/test
     machine: true
     environment:
+      - PYTHONUNBUFFERED: 1
       - PYVER: "27"
     steps:
       - checkout
@@ -19,6 +20,7 @@ jobs:
     working_directory: ~/test
     machine: true
     environment:
+      - PYTHONUNBUFFERED: 1
       - PYVER: "35"
     steps:
       - checkout
@@ -33,6 +35,7 @@ jobs:
     working_directory: ~/test
     machine: true
     environment:
+      - PYTHONUNBUFFERED: 1
       - PYVER: "36"
     steps:
       - checkout

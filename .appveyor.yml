@@ -6,6 +6,8 @@ branches:
   - master
 
 environment:
+  global:
+    PYTHONUNBUFFERED: 1
 
   matrix:
     - TARGET_ARCH: x86
