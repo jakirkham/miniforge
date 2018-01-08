@@ -9,9 +9,6 @@ jobs:
       - PYVER: "27"
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - build_python_27-{{ .Revision }}
       - run:
           command: docker pull condaforge/linux-anvil
       - run:
@@ -29,9 +26,6 @@ jobs:
       - PYVER: "35"
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - build_python_35-{{ .Revision }}
       - run:
           command: docker pull condaforge/linux-anvil
       - run:
@@ -49,9 +43,6 @@ jobs:
       - PYVER: "36"
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - build_python_36-{{ .Revision }}
       - run:
           command: docker pull condaforge/linux-anvil
       - run:
