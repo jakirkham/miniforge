@@ -12,7 +12,7 @@ jobs:
       - run:
           command: docker pull condaforge/linux-anvil
       - run:
-          command: docker run -it -e HOST_USER_ID="$(id -u)" -e PYVER="${PYVER}" -v "$(pwd)":/home/conda/repo -w /home/conda/repo condaforge/linux-anvil .scripts/run.sh
+          command: docker run -it -e HOST_USER_ID="$(id -u)" -e PYVER="${PYVER}" -v "$(pwd)":/home/conda/repo -w /home/conda/repo condaforge/linux-anvil .circleci/run.sh
       - run:
           command: docker run -it -e HOST_USER_ID="$(id -u)" -e PYVER="${PYVER}" -v "$(pwd)":/home/conda/repo -w /home/conda/repo condaforge/linux-anvil ./check.py "out/miniforge-py${PYVER}-*.sh"
       - run:
@@ -29,7 +29,7 @@ jobs:
       - run:
           command: docker pull condaforge/linux-anvil
       - run:
-          command: docker run -it -e HOST_USER_ID="$(id -u)" -e PYVER="${PYVER}" -v "$(pwd)":/home/conda/repo -w /home/conda/repo condaforge/linux-anvil .scripts/run.sh
+          command: docker run -it -e HOST_USER_ID="$(id -u)" -e PYVER="${PYVER}" -v "$(pwd)":/home/conda/repo -w /home/conda/repo condaforge/linux-anvil .circleci/run.sh
       - run:
           command: docker run -it -e HOST_USER_ID="$(id -u)" -e PYVER="${PYVER}" -v "$(pwd)":/home/conda/repo -w /home/conda/repo condaforge/linux-anvil ./check.py "out/miniforge-py${PYVER}-*.sh"
       - run:
@@ -46,7 +46,7 @@ jobs:
       - run:
           command: docker pull condaforge/linux-anvil
       - run:
-          command: docker run -it -e HOST_USER_ID="$(id -u)" -e PYVER="${PYVER}" -v "$(pwd)":/home/conda/repo -w /home/conda/repo condaforge/linux-anvil .scripts/run.sh
+          command: docker run -it -e HOST_USER_ID="$(id -u)" -e PYVER="${PYVER}" -v "$(pwd)":/home/conda/repo -w /home/conda/repo condaforge/linux-anvil .circleci/run.sh
       - run:
           command: docker run -it -e HOST_USER_ID="$(id -u)" -e PYVER="${PYVER}" -v "$(pwd)":/home/conda/repo -w /home/conda/repo condaforge/linux-anvil ./check.py "out/miniforge-py${PYVER}-*.sh"
       - run:
