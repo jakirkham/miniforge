@@ -70,6 +70,36 @@ jobs:
       - run:
           command: python release.py --tag --force
 
+  deploy_python_27:
+    working_directory: ~/test
+    machine: true
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - build_python_27-{{ .Revision }}
+      - store_artifacts:
+          path: out
+          destination: artifacts
+
+  deploy_python_35:
+    working_directory: ~/test
+    machine: true
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - build_python_35-{{ .Revision }}
+
+  deploy_python_36:
+    working_directory: ~/test
+    machine: true
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - build_python_36-{{ .Revision }}
+
 workflows:
   version: 2
   build_and_test:
@@ -78,3 +108,21 @@ workflows:
       - build_python_35
       - build_python_36
       - test_release
+      - deploy_python_27:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*/
+      - deploy_python_35:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*/
+      - deploy_python_36:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*/
