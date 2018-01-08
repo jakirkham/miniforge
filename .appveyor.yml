@@ -48,4 +48,7 @@ test_script:
   - cmd: distclean
   - cmd: .appveyor_scripts\\run.bat
   - cmd: check "out\\miniforge-py%PYVER%-*.exe"
-  - cmd: distclean
+  - cmd: if defined APPVEYOR_PULL_REQUEST_NUMBER (distclean)
+
+cache:
+  - out
