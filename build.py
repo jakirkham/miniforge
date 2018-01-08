@@ -73,7 +73,7 @@ def main(*argv):
     for hn in hash_names:
         hashlib.new(hn)
 
-    base_dir = os.path.dirname(os.path.abspath(__name__))
+    base_dir = os.path.dirname(os.path.abspath(__file__))
     src_dir = os.path.join(base_dir, "src")
     _scripts_dir = os.path.join(base_dir, ".scripts")
 

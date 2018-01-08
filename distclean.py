@@ -12,7 +12,7 @@ def main(*argv):
     )
     args = parser.parse_args(args=argv[1:])
 
-    base_dir = os.path.dirname(os.path.abspath(__name__))
+    base_dir = os.path.dirname(os.path.abspath(__file__))
     out_dir = os.path.join(base_dir, "out")
 
     if os.path.exists(out_dir):
