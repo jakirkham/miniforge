@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+set -ex
 
 conda install -yq constructor jinja2
 
