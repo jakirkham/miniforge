@@ -22,7 +22,7 @@ def main(*argv):
     )
     args = parser.parse_args(args=argv[1:])
 
-    base_dir = os.path.dirname(os.path.abspath(__name__))
+    base_dir = os.path.dirname(os.path.abspath(__file__))
     _scripts_dir = os.path.join(base_dir, ".scripts")
 
     version = subprocess.check_output(
