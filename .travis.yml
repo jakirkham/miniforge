@@ -28,6 +28,6 @@ install:
   - conda config --set auto_update_conda false
 
 script:
-  - .scripts/run.sh
+  - .travis_scripts/run.sh
   - ./check.py "out/miniforge-py${PYVER}-*.sh"
   - ./distclean.py
