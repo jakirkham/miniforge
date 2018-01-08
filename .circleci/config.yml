@@ -64,11 +64,11 @@ jobs:
              git config --global user.name "Foo Bar"
              git config --global user.email "foo@bar.com"
       - run:
-          command: python release.py
+          command: python release.py --tag
       - run:
-          command: ( python release.py ) && false || true
+          command: ( python release.py --tag ) && false || true
       - run:
-          command: python release.py --force
+          command: python release.py --tag --force
 
 workflows:
   version: 2
