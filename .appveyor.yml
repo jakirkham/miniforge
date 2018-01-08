@@ -4,6 +4,7 @@ platform:
 branches:
   only:
   - master
+  - /\d\d\d\d\d\d\d\dT\d\d\d\d\d\dZ/
 
 environment:
   global:

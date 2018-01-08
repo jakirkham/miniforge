@@ -6,6 +6,7 @@ osx_image: xcode6.4
 branches:
   only:
   - master
+  - /\d\d\d\d\d\d\d\dT\d\d\d\d\d\dZ/
 
 env:
   global:
