@@ -30,6 +30,12 @@ def main(*argv):
         universal_newlines=True
     ).strip()
 
+    if args.remote:
+        subprocess.call(
+            ["git", "fetch", args.remote, version],
+            universal_newlines=True
+        )
+
     subprocess.check_call(
         shlex.split(
             "git tag {force} -a {tag} -m {tag}".format(
