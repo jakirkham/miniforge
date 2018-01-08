@@ -2,6 +2,7 @@
 
 import argparse
 import datetime
+import os
 import subprocess
 import sys
 
@@ -35,6 +36,9 @@ def main(*argv):
     parser = argparse.ArgumentParser(
         description="Generate version from commit time."
     )
+
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    os.chdir(base_dir)
 
     git_time_str = git_commit_time(ref="HEAD").strftime("%Y%m%dT%H%M%SZ")
 
