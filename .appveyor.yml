@@ -45,6 +45,7 @@ install:
 build: off
 
 test_script:
+  - cmd: distclean
   - cmd: .appveyor_scripts\\run.bat
   - cmd: check "out\\miniforge-py%PYVER%-*.exe"
   - cmd: distclean
