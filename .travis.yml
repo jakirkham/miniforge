@@ -31,4 +31,10 @@ script:
   - ./distclean.py
   - .travis_scripts/run.sh
   - ./check.py "out/miniforge-py${PYVER}-*.sh"
-  - ./distclean.py
+  - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
+        ./distclean.py;
+    fi
+
+cache:
+  directories:
+    - out

@@ -9,10 +9,17 @@ jobs:
       - PYVER: "27"
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - build_python_27-{{ .Revision }}
       - run:
           command: docker pull condaforge/linux-anvil
       - run:
-          command: docker run -it -e HOST_USER_ID="$(id -u)" -e PYVER="${PYVER}" -v "$(pwd)":/home/conda/repo condaforge/linux-anvil /home/conda/repo/.circleci/run.sh
+          command: docker run -it -e HOST_USER_ID="$(id -u)" -e PYVER="${PYVER}" -e CIRCLE_PULL_REQUEST="${CIRCLE_PULL_REQUEST}" -v "$(pwd)":/home/conda/repo condaforge/linux-anvil /home/conda/repo/.circleci/run.sh
+      - save_cache:
+          key: build_python_27-{{ .Revision }}
+          paths:
+            - out
 
   build_python_35:
     working_directory: ~/test
@@ -22,10 +29,17 @@ jobs:
       - PYVER: "35"
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - build_python_35-{{ .Revision }}
       - run:
           command: docker pull condaforge/linux-anvil
       - run:
-          command: docker run -it -e HOST_USER_ID="$(id -u)" -e PYVER="${PYVER}" -v "$(pwd)":/home/conda/repo condaforge/linux-anvil /home/conda/repo/.circleci/run.sh
+          command: docker run -it -e HOST_USER_ID="$(id -u)" -e PYVER="${PYVER}" -e CIRCLE_PULL_REQUEST="${CIRCLE_PULL_REQUEST}" -v "$(pwd)":/home/conda/repo condaforge/linux-anvil /home/conda/repo/.circleci/run.sh
+      - save_cache:
+          key: build_python_35-{{ .Revision }}
+          paths:
+            - out
 
   build_python_36:
     working_directory: ~/test
@@ -35,10 +49,17 @@ jobs:
       - PYVER: "36"
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - build_python_36-{{ .Revision }}
       - run:
           command: docker pull condaforge/linux-anvil
       - run:
-          command: docker run -it -e HOST_USER_ID="$(id -u)" -e PYVER="${PYVER}" -v "$(pwd)":/home/conda/repo condaforge/linux-anvil /home/conda/repo/.circleci/run.sh
+          command: docker run -it -e HOST_USER_ID="$(id -u)" -e PYVER="${PYVER}" -e CIRCLE_PULL_REQUEST="${CIRCLE_PULL_REQUEST}" -v "$(pwd)":/home/conda/repo condaforge/linux-anvil /home/conda/repo/.circleci/run.sh
+      - save_cache:
+          key: build_python_36-{{ .Revision }}
+          paths:
+            - out
 
   test_release:
     working_directory: ~/test
