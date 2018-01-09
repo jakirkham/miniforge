@@ -65,7 +65,7 @@ def main(*argv):
     )
     parser.add_argument(
         "--publish",
-        choices=["prerelease", "final"],
+        choices=["draft", "final"],
         help="Optionally publish the final release on GitHub."
     )
     args = parser.parse_args(args=argv[1:])
@@ -135,7 +135,7 @@ def main(*argv):
         )
 
     if args.publish:
-        prerelease = (args.publish == "prerelease")
+        draft = (args.publish == "draft")
         try:
             release = request_json(
                 (
@@ -156,7 +156,7 @@ def main(*argv):
                     % (repo_slug, release_id)
                 ),
                 data={
-                    "prerelease": prerelease
+                    "draft": draft
                 },
                 headers={
                     "Content-Type": "application/json",
@@ -185,7 +185,7 @@ def main(*argv):
                     "target_commitish": version_sha1,
                     "name": version,
                     "body": commit_msg,
-                    "prerelease": prerelease
+                    "draft": draft
                 },
                 headers={
                     "Content-Type": "application/json",
