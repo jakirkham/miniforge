@@ -78,7 +78,7 @@ def main(*argv):
     for each_glob_filename in args.filenames:
         for each_filename in glob.iglob(each_glob_filename):
             with open(each_filename, "rb") as fh:
-                with contextlib.closing(mmap.mmap(fh.fileno(), 0, prot=mmap.ACCESS_READ)) as fmm:
+                with contextlib.closing(mmap.mmap(fh.fileno(), 0, access=mmap.ACCESS_READ)) as fmm:
                     each_filename = os.path.basename(each_filename)
                     request = Request(
                         release_upload_url + "?name=%s" % each_filename,
