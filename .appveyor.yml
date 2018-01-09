@@ -48,10 +48,17 @@ install:
 build: off
 
 test_script:
-  - cmd: distclean
-  - cmd: .appveyor_scripts\\run.bat
-  - cmd: check "out\\miniforge-py%PYVER%-*.exe"
-  - cmd: if defined APPVEYOR_PULL_REQUEST_NUMBER (distclean)
+  - cmd: if "%APPVEYOR_REPO_TAG%" == "false" (
+             distclean &&
+             .appveyor_scripts\\run.bat &&
+             check "out\\miniforge-py%PYVER%-*.exe"
+         ) else (
+             publish --repo "%APPVEYOR_REPO_NAME%" --upload "out\\*" &&
+             distclean
+         )
+  - cmd: if defined APPVEYOR_PULL_REQUEST_NUMBER (
+             distclean
+         )
 
 cache:
   - out
