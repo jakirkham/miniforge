@@ -45,5 +45,6 @@ script:
     fi
 
 cache:
+  timeout: 600
   directories:
     - out
