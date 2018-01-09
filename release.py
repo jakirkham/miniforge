@@ -165,6 +165,11 @@ def main(*argv):
                 }
             )
         except HTTPError:
+            commit_msg = subprocess.check_output(
+                ["git", "log", "--format=%B", "-n", "1", version],
+                universal_newlines=True
+            ).strip()
+
             version_sha1 = subprocess.check_output(
                 ["git", "rev-list", "-n", "1", version],
                 universal_newlines=True
@@ -179,6 +184,7 @@ def main(*argv):
                     "tag_name": version,
                     "target_commitish": version_sha1,
                     "name": version,
+                    "body": commit_msg,
                     "prerelease": prerelease
                 },
                 headers={
