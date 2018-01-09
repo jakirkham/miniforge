@@ -85,6 +85,7 @@ def main(*argv):
                         fmm,
                         headers={
                             "Content-Type": "application/octet-stream",
+                            "Content-Length": len(fmm),
                             "Accept": "application/vnd.github.v3+json",
                             "Authorization": (
                                 "token %s" % os.environ["GH_TOKEN"]
