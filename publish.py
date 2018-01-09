@@ -88,8 +88,7 @@ def main(*argv):
                             "Accept": "application/vnd.github.v3+json",
                             "Authorization": (
                                 "token %s" % os.environ["GH_TOKEN"]
-                            ),
-                            "name": each_filename
+                            )
                         }
                     )
                     with contextlib.closing(urlopen(request)) as response:
