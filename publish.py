@@ -77,24 +77,25 @@ def main(*argv):
 
     for each_glob_filename in args.filenames:
         for each_filename in glob.iglob(each_glob_filename):
-            with open(each_filename, "rb") as fh:
-                with contextlib.closing(mmap.mmap(fh.fileno(), 0, access=mmap.ACCESS_READ)) as fmm:
-                    each_filename = os.path.basename(each_filename)
-                    request = Request(
-                        release_upload_url + "?name=%s" % each_filename,
-                        fmm,
-                        headers={
-                            "Content-Type": "application/octet-stream",
-                            "Content-Length": len(fmm),
-                            "Accept": "application/vnd.github.v3+json",
-                            "Authorization": (
-                                "token %s" % os.environ["GH_TOKEN"]
-                            )
-                        }
-                    )
-                    with contextlib.closing(urlopen(request)) as response:
-                        reader = codecs.getreader("utf-8")
-                        json_resp = json.load(reader(response))
+            if version in each_filename:
+                with open(each_filename, "rb") as fh:
+                    with contextlib.closing(mmap.mmap(fh.fileno(), 0, access=mmap.ACCESS_READ)) as fmm:
+                        each_filename = os.path.basename(each_filename)
+                        request = Request(
+                            release_upload_url + "?name=%s" % each_filename,
+                            fmm,
+                            headers={
+                                "Content-Type": "application/octet-stream",
+                                "Content-Length": len(fmm),
+                                "Accept": "application/vnd.github.v3+json",
+                                "Authorization": (
+                                    "token %s" % os.environ["GH_TOKEN"]
+                                )
+                            }
+                        )
+                        with contextlib.closing(urlopen(request)) as response:
+                            reader = codecs.getreader("utf-8")
+                            json_resp = json.load(reader(response))
 
 
 if __name__ == "__main__":
