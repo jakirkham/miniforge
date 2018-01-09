@@ -8,6 +8,9 @@ branches:
 
 environment:
   global:
+    GH_TOKEN:
+      secure: L8UBEbi0DeooYcUYnviUbbsxZagptGEMtXzmNEAn+WgudBzAV32swuNMuxtv9s/d
+
     PYTHONUNBUFFERED: 1
 
   matrix:
