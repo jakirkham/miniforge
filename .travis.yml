@@ -32,10 +32,15 @@ install:
   - conda config --set auto_update_conda false
 
 script:
-  - ./distclean.py
-  - .travis_scripts/run.sh
-  - ./check.py "out/miniforge-py${PYVER}-*.sh"
-  - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
+  - if [[ "$TRAVIS_TAG" == "" ]]; then
+        ./distclean.py &&
+        .travis_scripts/run.sh &&
+        ./check.py "out/miniforge-py${PYVER}-*.sh";
+    else
+        ./publish.py --repo "${TRAVIS_REPO_SLUG}" --upload "out/*" &&
+        ./distclean.py;
+    fi
+  - if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then
         ./distclean.py;
     fi
 
