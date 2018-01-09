@@ -7,11 +7,10 @@ branches:
   - /\d\d\d\d\d\d\d\dT\d\d\d\d\d\dZ/
 
 environment:
-  global:
-    GH_TOKEN:
-      secure: L8UBEbi0DeooYcUYnviUbbsxZagptGEMtXzmNEAn+WgudBzAV32swuNMuxtv9s/d
+  GH_TOKEN:
+    secure: L8UBEbi0DeooYcUYnviUbbsxZagptGEMtXzmNEAn+WgudBzAV32swuNMuxtv9s/d
 
-    PYTHONUNBUFFERED: 1
+  PYTHONUNBUFFERED: 1
 
   matrix:
     - TARGET_ARCH: x86
