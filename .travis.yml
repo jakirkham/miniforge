@@ -43,6 +43,7 @@ script:
   - if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then
         ./distclean.py;
     fi
+  - mkdir -p out
 
 cache:
   timeout: 600

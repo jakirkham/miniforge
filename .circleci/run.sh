@@ -11,3 +11,5 @@ conda install -yq constructor jinja2
 if [ "$CIRCLE_PULL_REQUEST" != "" ]; then
     /home/conda/repo/distclean.py
 fi
+
+mkdir -p out

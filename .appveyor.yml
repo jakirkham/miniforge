@@ -59,6 +59,7 @@ test_script:
   - cmd: if defined APPVEYOR_PULL_REQUEST_NUMBER (
              distclean
          )
+  - cmd: if not exist out mkdir out
 
 cache:
   - out
