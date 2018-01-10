@@ -29,6 +29,23 @@ def request_json(url, data=None, headers={}):
         return json.load(reader(response))
 
 
+def has_release_asset_name(url, name):
+    release_assets = request_json(
+        url,
+        headers={
+            "Content-Type": "application/json",
+            "Accept": "application/vnd.github.v3+json",
+            "Authorization": "token %s" % os.environ["GH_TOKEN"]
+        }
+    )
+
+    for each_asset in release_assets:
+        if name == each_asset["name"]:
+            return True
+
+    return False
+
+
 def main(*argv):
     parser = argparse.ArgumentParser(
         description="Prep a release of the `conda-forge`-based installer."
@@ -73,29 +90,44 @@ def main(*argv):
             "Authorization": "token %s" % os.environ["GH_TOKEN"]
         }
     )
+    release_assets_url = release_info["assets_url"]
     release_upload_url = release_info["upload_url"].split("{?name,label}")[0]
 
     for each_glob_filename in args.filenames:
         for each_filename in glob.iglob(each_glob_filename):
-            if version in each_filename:
-                with open(each_filename, "rb") as fh:
-                    with contextlib.closing(mmap.mmap(fh.fileno(), 0, access=mmap.ACCESS_READ)) as fmm:
-                        each_filename = os.path.basename(each_filename)
-                        request = Request(
-                            release_upload_url + "?name=%s" % each_filename,
-                            fmm,
-                            headers={
-                                "Content-Type": "application/octet-stream",
-                                "Content-Length": len(fmm),
-                                "Accept": "application/vnd.github.v3+json",
-                                "Authorization": (
-                                    "token %s" % os.environ["GH_TOKEN"]
-                                )
-                            }
-                        )
-                        with contextlib.closing(urlopen(request)) as response:
-                            reader = codecs.getreader("utf-8")
-                            json_resp = json.load(reader(response))
+            each_name = os.path.basename(each_filename)
+
+            if version not in each_name:
+                print("Version mismatch. Skipping: %s" % each_name)
+                continue
+
+            if has_release_asset_name(release_assets_url, each_name):
+                print("Already uploaded. Skipping: %s" % each_name)
+                continue
+
+            print("Uploading... : %s" % each_name)
+            with open(each_filename, "rb") as fh:
+                with contextlib.closing(mmap.mmap(fh.fileno(), 0, access=mmap.ACCESS_READ)) as fmm:
+                    request = Request(
+                        release_upload_url + "?name=%s" % each_name,
+                        fmm,
+                        headers={
+                            "Content-Type": "application/octet-stream",
+                            "Content-Length": len(fmm),
+                            "Accept": "application/vnd.github.v3+json",
+                            "Authorization": (
+                                "token %s" % os.environ["GH_TOKEN"]
+                            )
+                        }
+                    )
+                    with contextlib.closing(urlopen(request)) as response:
+                        reader = codecs.getreader("utf-8")
+                        json_resp = json.load(reader(response))
+
+            if not has_release_asset_name(release_assets_url, each_name):
+                raise RuntimeError("Upload failed: %s" % each_name)
+            else:
+                print("Finished uploading: %s" % each_name)
 
 
 if __name__ == "__main__":
