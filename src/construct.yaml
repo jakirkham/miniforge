@@ -19,6 +19,8 @@ license_file: LICENSE.txt
 
 keep_pkgs: true
 
+attempt_hardlinks: false
+
 installer_type: sh   # [linux]
 installer_type: pkg  # [osx]
 installer_type: exe  # [win]
