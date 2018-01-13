@@ -18,3 +18,7 @@ specs:
 license_file: LICENSE.txt
 
 keep_pkgs: true
+
+installer_type: sh   # [linux]
+installer_type: sh   # [osx]
+installer_type: exe  # [win]
