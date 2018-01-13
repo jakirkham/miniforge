@@ -8,7 +8,7 @@ version: {{ version }}
 install_in_dependency_order: true
 
 channels:
-  - http://conda.anaconda.org/conda-forge
+  - https://conda.anaconda.org/conda-forge
 
 specs:
   - python {{ py_ver_maj }}.{{ py_ver_min }}.*
