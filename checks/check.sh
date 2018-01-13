@@ -12,4 +12,6 @@ conda info
 
 conda list
 
+conda list --explicit --md5
+
 source deactivate

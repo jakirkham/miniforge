@@ -21,5 +21,8 @@ if errorlevel 1 exit 1
 conda list
 if errorlevel 1 exit 1
 
+conda list --explicit --md5
+if errorlevel 1 exit 1
+
 call .\prefix\Scripts\deactivate.bat
 if errorlevel 1 exit 1
