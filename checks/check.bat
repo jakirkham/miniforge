@@ -21,7 +21,7 @@ if errorlevel 1 exit 1
 conda list
 if errorlevel 1 exit 1
 
-conda list --explicit --md5
+conda list --no-show-channel-urls --no-pip
 if errorlevel 1 exit 1
 
 call .\prefix\Scripts\deactivate.bat

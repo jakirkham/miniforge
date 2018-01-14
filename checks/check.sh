@@ -12,6 +12,6 @@ conda info
 
 conda list
 
-conda list --explicit --md5
+conda list --no-show-channel-urls --no-pip
 
 source deactivate
