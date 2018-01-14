@@ -1,8 +1,8 @@
 {% from "version.jinja" import version %}
-{% from "python.jinja" import py_ver_maj, py_ver_min %}
+{% from "python.jinja" import py, py_ver_maj, py_ver_min %}
 
 
-name: miniforge-py{{ py_ver_maj }}{{ py_ver_min }}
+name: miniforge-py{{ py }}
 version: {{ version }}
 
 install_in_dependency_order: true
