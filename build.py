@@ -106,6 +106,7 @@ def main(*argv):
         write_jinja_vars(
             os.path.join(build_dir, "python.jinja"),
             dict(
+                py="%s%s" % (py_ver_maj, py_ver_min),
                 py_ver_maj=py_ver_maj,
                 py_ver_min=py_ver_min,
             )
