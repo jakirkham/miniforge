@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -ex
+export PYTHONUNBUFFERED=1
 
 conda install -yq constructor jinja2
 
