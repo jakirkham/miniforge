@@ -18,7 +18,7 @@ if errorlevel 1 exit 1
 conda info
 if errorlevel 1 exit 1
 
-conda list
+conda list > spec.txt && type spec.txt
 if errorlevel 1 exit 1
 
 call .\prefix\Scripts\deactivate.bat
