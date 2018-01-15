@@ -10,6 +10,8 @@ source ./prefix/bin/activate
 
 conda info
 
+conda info --json > info.json
+
 conda list | tee spec.txt
 
 source deactivate
