@@ -155,6 +155,19 @@ def main(*argv):
             exit_code = 1
             print("FAIL")
 
+        print("Checking for noarch Python packages...", end="")
+        py_noarch = 0
+        for s in res_spec:
+            if s[2].startswith("py_"):
+                py_noarch = 1
+                break
+
+        if py_noarch == 0:
+            print("PASS")
+        else:
+            exit_code = 1
+            print("FAIL")
+
     return(exit_code)
 
 
