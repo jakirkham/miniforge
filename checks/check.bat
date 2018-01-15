@@ -18,7 +18,13 @@ if errorlevel 1 exit 1
 conda info
 if errorlevel 1 exit 1
 
-conda list
+conda info --json > info.json
+if errorlevel 1 exit 1
+
+conda list > spec.txt && type spec.txt
+if errorlevel 1 exit 1
+
+conda update -c conda-forge --quiet --dry-run --all
 if errorlevel 1 exit 1
 
 call .\prefix\Scripts\deactivate.bat
