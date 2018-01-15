@@ -12,4 +12,6 @@ conda info
 
 conda list
 
+conda list --no-show-channel-urls --no-pip
+
 source deactivate
