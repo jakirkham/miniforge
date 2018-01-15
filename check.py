@@ -6,6 +6,7 @@ import argparse
 import contextlib
 import datetime
 import glob
+import json
 import os
 import shutil
 import subprocess
@@ -60,6 +61,7 @@ def main(*argv):
 
     base_dir = os.path.dirname(os.path.abspath(__file__))
     checks_dir = os.path.join(base_dir, "checks")
+    specs_dir = os.path.join(base_dir, "src", "specs")
 
     all_installer_fns = []
     for each_installer_fn in args.installers:
@@ -120,8 +122,38 @@ def main(*argv):
                         "check%s" % script_ext
                     ])
             finally:
+                with open("info.json", "r") as fh:
+                    res_info = json.load(fh)
+
+                res_spec = []
+                with open("spec.txt", "r") as fh:
+                    for l in fh:
+                        if not l.startswith("#"):
+                            res_spec.append(tuple(l.split()[:3]))
+                res_spec = tuple(res_spec)
+
                 os.chdir(cwd)
                 print("Cleaning up.")
+
+        print("Comparing installer specs...", end="")
+
+        res_platform = res_info["platform"]
+        res_py = "".join(res_info["python_version"].split(".")[:2])
+
+        fn_spec = "%s_py%s.txt" % (res_platform, res_py)
+        fn_spec = os.path.join(specs_dir, fn_spec)
+
+        exp_spec = []
+        with open(fn_spec, "r") as fh:
+            for l in fh:
+                exp_spec.append(tuple(l.split()[:3]))
+        exp_spec = tuple(exp_spec)
+
+        if res_spec == exp_spec:
+            print("PASS")
+        else:
+            exit_code = 1
+            print("FAIL")
 
     return(exit_code)
 
