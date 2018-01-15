@@ -70,7 +70,14 @@ def main(*argv):
         print("Testing installer: %s" % each_installer_fn)
 
         print("Verifying installer version...", end="")
-        git_time_str = git_commit_time(ref="HEAD").strftime("%Y%m%dT%H%M%SZ")
+
+        cwd = os.getcwd()
+        try:
+            os.chdir(base_dir)
+            git_time_str = git_commit_time(ref="HEAD").strftime("%Y%m%dT%H%M%SZ")
+        finally:
+            os.chdir(cwd)
+
         if git_time_str in each_installer_fn:
             print("PASS")
         else:
