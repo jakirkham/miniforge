@@ -10,10 +10,10 @@ install_in_dependency_order: true
 channels:
   - https://conda.anaconda.org/conda-forge
 
-specs:
-  - python {{ py_ver_maj }}.{{ py_ver_min }}.*
-  - pip
-  - conda
+specs: specs/linux-64_py{{ py }}.txt  # [linux]
+specs: specs/osx-64_py{{ py }}.txt    # [osx]
+specs: specs/win-32_py{{ py }}.txt    # [win32]
+specs: specs/win-64_py{{ py }}.txt    # [win64]
 
 license_file: LICENSE.txt
 
